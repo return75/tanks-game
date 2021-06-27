@@ -16,33 +16,25 @@ shoot ();
 let update = function () {
     context.clearRect(0, 0, width, height);
     if (ball1) {
+        ball1.velocity.add(gravity);
         checkBottomCollision (ball1);
         checkRightCollision (ball1);
         checkLeftCollision (ball1);
         checkTopCollision (ball1);
         setFrictionOnBottom (ball1);
-        ball1.velocity.add(gravity);
         ball1.position.add(ball1.velocity);
         if (ball2) {
-            let res = checkBallCollision (ball1, ball2);
-            if (res) {
-                DrawBall (ball1, 'blue');
-                DrawBall (ball2, 'red');
-                return
-            }  
+            ball2.velocity.add(gravity);
             checkBottomCollision (ball2);
             checkRightCollision (ball2);
             checkLeftCollision (ball2);
             checkTopCollision (ball2);
             setFrictionOnBottom (ball2);
-            ball2.velocity.add(gravity);
+            checkBallCollision (ball1, ball2);
             ball2.position.add(ball2.velocity);
         }
         
     }
-    // if (ball2) {
-        
-    // }
     if (ball1 && ball2) {
         DrawBall (ball1, 'blue');
         DrawBall (ball2, 'red');
@@ -92,11 +84,10 @@ function checkBallCollision(ball1, ball2) {
     let distance = Math.sqrt (Math.pow((ball1.position.getX () - ball2.position.getX ()), 2) + 
     Math.pow((ball1.position.getY () - ball2.position.getY ()), 2));
     if (distance < 2 * ballRadius) {
-        ball1.setVelocity (vector.create (ball1.velocity.getX () * -1 , ball1.velocity.getY () * -1 ) );
-        ball2.setVelocity (vector.create (ball2.velocity.getX () * -1 , ball2.velocity.getY () * -1 ) );
-        return true;
+        let ball1VelocityAngle = ball1.velocity.getAngle ();
+        ball1.velocity.setAngle (ball2.velocity.getAngle ());
+        ball2.velocity.setAngle (ball1VelocityAngle);
     }
-    return false;
 }
 
 

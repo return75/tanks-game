@@ -44,8 +44,8 @@ var vector = {
         this._x = length * Math.cos(angle);
         this._y = length * Math.sin(angle);
     },
-    getAngle: function () {
-        return Math.atan(this._x, this._y)
-    },
+    getAngle: function() {
+		return Math.atan2(this._y, this._x);
+	},
     
 }
