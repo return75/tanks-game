@@ -1,7 +1,7 @@
 let ball = {
     position: null,
     velocity: null,
-    player: 1,
+    player: null,
     create: function (position, velocity, player = 1) {
         let objcet = Object.create(this);
         objcet.setPosition (position);
@@ -17,6 +17,9 @@ let ball = {
     },
     setPlayer: function (player) {
         this.player = player;
+    },
+    getPlayer: function (player) {
+        return this.player;
     },
     getVelocity () {
         return this.velocity;
