@@ -168,7 +168,11 @@ function keyboardHandling () {
             }
         } else if (event.code === 'ArrowUp') {
             rightTank.setAngle(rightTank.getAngle() + .05);
+        } else if (event.code === 'ArrowRight') {
+            rightTank.setAngle(rightTank.getAngle() + .05);
         } else if (event.code === 'ArrowDown') {
+            rightTank.setAngle(rightTank.getAngle() - .05);
+        } else if (event.code === 'ArrowLeft') {
             rightTank.setAngle(rightTank.getAngle() - .05);
         } else if (event.code === 'ArrowUp') {
             rightTank.setAngle(rightTank.getAngle() + .05);
@@ -176,7 +180,11 @@ function keyboardHandling () {
             rightTank.setAngle(rightTank.getAngle() - .05);
         } else if (event.code === 'KeyA') {
             leftTank.setAngle(leftTank.getAngle() - .05);
-        } else if (event.code === 'KeyZ') {
+        } else if (event.code === 'KeyW') {
+            leftTank.setAngle(leftTank.getAngle() - .05);
+        } else if (event.code === 'KeyS') {
+            leftTank.setAngle(leftTank.getAngle() + .05);
+        } else if (event.code === 'KeyD') {
             leftTank.setAngle(leftTank.getAngle() + .05);
         }
     }, false);
