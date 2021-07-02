@@ -5,10 +5,10 @@ let height = canvas.height = window.innerHeight;
 let background = document.getElementById('background')
 let backgroundContext = background.getContext("2d");
 initBackground();
-drawSky();
-drawHill(150, 20, 4, '#b4ff62');
-drawHill(120, 30, 2, '#84B249');
-drawHill(100, 50, 1, '#39a85a');
+drawBackground();
+playBackgroudSound();
+
+
 
 let animationFrame;
 let tankBodyRadius = 60,
@@ -22,8 +22,8 @@ let tankBodyRadius = 60,
     rightPlayerColor = '#498bff';
 
 let balls = [];
-let leftPlate = plate.create (vector.create(0, 0), vector.create(0, 10), rightPlayerColor);
-let rightPlate = plate.create (vector.create(width - plate.width, 200), vector.create(0, 10), leftPlayerColor);
+let leftPlate = plate.create (vector.create(0, 0), vector.create(0, 6), leftPlayerColor);
+let rightPlate = plate.create (vector.create(width - plate.width, 200), vector.create(0, 6), rightPlayerColor);
 
 let leftTank = tank.create(vector.create(ballRadius, height - ballRadius), -Math.PI / 4);
 let rightTank = tank.create(vector.create(width - ballRadius, height - ballRadius), 5 * Math.PI / 4);
@@ -44,19 +44,17 @@ let update = function () {
         let ball = balls[i];
         removeExitedBallFromScreen(ball) && balls.splice(i, 1);
         ball.velocity.add(gravity);
-        checkBallPlateCollsion(ball, leftPlate);
-        checkBallPlateCollsion(ball, rightPlate);
+        checkBallPlateLeftCollsion(ball);
+        checkBallPlateRightCollsion(ball);
         checkBottomCollision (ball);
-        // checkRightCollision (ball);
-        // checkLeftCollision (ball);
         checkTopCollision (ball);
 
         setFrictionOnBottom (ball);
         ball.position.add(ball.velocity);
-        drawBall (ball, ball.getPlayer() === 'left' ? rightPlayerColor : leftPlayerColor);
+        drawBall (ball, ball.getPlayer() === 'left' ? leftPlayerColor : rightPlayerColor);
     }
-    drawTank(rightTank);
-    drawTank(leftTank);
+    drawTank(rightTank, rightPlayerColor, '#423937');
+    drawTank(leftTank, leftPlayerColor, '#423937');
     //drawTankPower(leftTankPower);
     //drawTankPower(rightTankPower);
     animationFrame = requestAnimationFrame (update)
@@ -76,12 +74,7 @@ function drawPlate (plate) {
     context.fillRect(plate.position.getX(), plate.position.getY() , plate.width, plate.height);
     context.fill();
 }
-function drawTank (tank) {
-    // draw tank body
-    context.beginPath();
-    context.arc(tank.position.getX (), tank.position.getY () , tankBodyRadius, 0, 2 * Math.PI);
-    context.fillStyle = 'black';
-    context.fill();
+function drawTank (tank, bodyColor, cylinderColor) {
 
     // draw tank cylinder
     let cylinderVector = vector.create( Math.sqrt(2) / 2 * tankCylinderLength, Math.sqrt(2) / 2 * tankCylinderLength);
@@ -89,9 +82,18 @@ function drawTank (tank) {
     let cylinderEndPoint = tank.position.addTo(cylinderVector);
     context.beginPath();
     context.lineWidth = tankCylinderWidth;
+    context.strokeStyle = cylinderColor;
     context.moveTo(tank.position.getX (), tank.position.getY ());
     context.lineTo(cylinderEndPoint.getX (), cylinderEndPoint.getY ());
     context.stroke();
+
+    // draw tank body
+    context.beginPath();
+    context.arc(tank.position.getX (), tank.position.getY () , tankBodyRadius, 0, 2 * Math.PI);
+    context.fillStyle = bodyColor;
+    context.fill();
+
+
 }
 function drawTankPower(tankPower) {
     context.beginPath();
@@ -160,20 +162,21 @@ function checkBallCollision(ball1, ball2) {
     }
 }
 
-function checkBallPlateCollsion (ball, plate) {
-    if (plate.getPosition().getX() === 0) {
-        if (ball.getPosition().getX() < plate.getPosition().getX() + ballRadius) {
-            if (ball.getPosition().getY() > plate.getPosition().getY() - ballRadius &&
-                ball.getPosition().getY() < plate.getPosition().getY() + ballRadius + plate.getHeight()) {
-                ball.setVelocity (vector.create (ball.velocity.getX () * -1, ball.velocity.getY ()));
-            }
+function checkBallPlateLeftCollsion (ball) {
+    if (ball.getPosition().getX() < leftPlate.getPosition().getX() + ballRadius) {
+        if (ball.getPosition().getY() > leftPlate.getPosition().getY() - ballRadius &&
+            ball.getPosition().getY() < leftPlate.getPosition().getY() + ballRadius + leftPlate.getHeight()) {
+            ball.setVelocity (vector.create (ball.velocity.getX () * -1, ball.velocity.getY ()));
+            playScoreSound();
         }
-    } else {
-        if (ball.getPosition().getX() > plate.getPosition().getX() - ballRadius) {
-            if (ball.getPosition().getY() > plate.getPosition().getY() - ballRadius &&
-                ball.getPosition().getY() < plate.getPosition().getY() + ballRadius + plate.getHeight()) {
-                ball.setVelocity (vector.create (ball.velocity.getX () * -1, ball.velocity.getY ()));
-            }
+    }
+}
+function checkBallPlateRightCollsion(ball) {
+    if (ball.getPosition().getX() > rightPlate.getPosition().getX() - ballRadius) {
+        if (ball.getPosition().getY() > rightPlate.getPosition().getY() - ballRadius &&
+            ball.getPosition().getY() < rightPlate.getPosition().getY() + ballRadius + rightPlate.getHeight()) {
+            ball.setVelocity (vector.create (ball.velocity.getX () * -1, ball.velocity.getY ()));
+            playScoreSound();
         }
     }
 }
@@ -191,19 +194,17 @@ function keyboardHandling () {
             let position = vector.create(ballRadius, height - ballRadius);
             let velocity = vector.create(1, 1);
             //velocity.setLength(leftTankPower.getPower() / 2);
-            velocity.setLength(40);
+            velocity.setLength(30);
             velocity.setAngle(leftTank.getAngle ());
-            let newBall = ball.create(position, velocity, 1);
-            newBall.setPlayer('left');
+            let newBall = ball.create(position, velocity, 'left');
             balls.push(newBall);
         } else if (event.code === 'Enter') {
             let position = vector.create(width - ballRadius, height - ballRadius);
             let velocity = vector.create(1, 1);
             //velocity.setLength(rightTankPower.getPower() / 2);
-            velocity.setLength(40);
+            velocity.setLength(30);
             velocity.setAngle(rightTank.getAngle ());
-            let newBall = ball.create(position, velocity, 2);
-            newBall.setPlayer('right');
+            let newBall = ball.create(position, velocity, 'right');
             balls.push(newBall);
         } else if (event.code === 'Escape') {
             if (!animationFrame) {
@@ -235,20 +236,21 @@ function keyboardHandling () {
         }
     }, false);
 }
-function stopAnimation () {
-    cancelAnimationFrame(animationFrame);
-    animationFrame = null;
-}
 keyboardHandling ();
 update ();
 
 function initBackground () {
     background.width = window.innerWidth;
     background.height = window.innerHeight;
-    backgroundContext.beginPath();
+}
+function drawBackground () {
+    drawSky();
+    drawHill(150, 20, 4, '#b4ff62');
+    drawHill(120, 30, 2, '#84B249');
+    drawHill(100, 50, 1, '#39a85a');
 }
 function drawSky() {
-    var gradient = backgroundContext.createLinearGradient(0, 0, 0, window.innerHeight);
+    let gradient = backgroundContext.createLinearGradient(0, 0, 0, window.innerHeight);
     gradient.addColorStop(0, "#AADBEA");
     gradient.addColorStop(1, "#FEF1E1");
     backgroundContext.fillStyle = gradient;
@@ -267,3 +269,4 @@ function drawHill (hillHeight, waveHeight, hillCount, color) {
     backgroundContext.fillStyle = color;
     backgroundContext.fill();
 }
+

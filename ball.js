@@ -2,7 +2,7 @@ let ball = {
     position: null,
     velocity: null,
     player: null,
-    create: function (position, velocity, player = 1) {
+    create: function (position, velocity, player) {
         let objcet = Object.create(this);
         objcet.setPosition (position);
         objcet.setVelocity (velocity);

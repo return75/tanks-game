@@ -2,7 +2,7 @@ let plate = {
     position: null,
     width: 8,
     height: 140,
-    color: 'black',
+    color: null,
     velocity: null,
     acceleration: vector.create(0, 1),
 
