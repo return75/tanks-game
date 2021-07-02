@@ -19,6 +19,9 @@ let plate = {
     getPosition: function () {
         return this.position;
     },
+    getHeight: function () {
+        return this.height;
+    },
     setColor: function (color) {
         this.color = color;
     },

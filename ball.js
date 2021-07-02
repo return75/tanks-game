@@ -12,6 +12,9 @@ let ball = {
     setPosition: function (position) {
         this.position = position;
     },
+    getPosition: function (position) {
+        return this.position;
+    },
     setVelocity: function (velocity) {
         this.velocity = velocity;
     },

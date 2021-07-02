@@ -6,9 +6,9 @@ let background = document.getElementById('background')
 let backgroundContext = background.getContext("2d");
 initBackground();
 drawSky();
-drawHill1(120);
-drawHill2(100);
-
+drawHill(150, 20, 4, '#b4ff62');
+drawHill(120, 30, 2, '#84B249');
+drawHill(100, 50, 1, '#39a85a');
 
 let animationFrame;
 let tankBodyRadius = 60,
@@ -20,8 +20,8 @@ let tankBodyRadius = 60,
     gravity = vector.create(0, .4);
 
 let balls = [];
-let plateLeft = plate.create (vector.create(0, 0), vector.create(0, 10), 'blue');
-let plateRight = plate.create (vector.create(width - plate.width, 0), vector.create(0, 5), 'red');
+let leftPlate = plate.create (vector.create(0, 0), vector.create(0, 10), 'blue');
+let rightPlate = plate.create (vector.create(width - plate.width, 200), vector.create(0, 5), 'red');
 
 let leftTank = tank.create(vector.create(ballRadius, height - ballRadius), -Math.PI / 4);
 let rightTank = tank.create(vector.create(width - ballRadius, height - ballRadius), 5 * Math.PI / 4);
@@ -29,24 +29,30 @@ let rightTank = tank.create(vector.create(width - ballRadius, height - ballRadiu
 
 let update = function () {
     context.clearRect(0, 0, width, height);
-    plateRight.position.add(plateRight.velocity);
-    reversPlateDirection (plateRight);
-    drawPlate(plateRight);
+    rightPlate.position.add(rightPlate.velocity);
+    reversPlateDirection (rightPlate);
+    drawPlate(rightPlate);
 
-    plateLeft.position.add(plateLeft.velocity);
-    reversPlateDirection (plateLeft);
-    drawPlate(plateLeft);
+    leftPlate.position.add(leftPlate.velocity);
+    reversPlateDirection (leftPlate);
+    drawPlate(leftPlate);
 
-    balls.forEach(ball => {
+    console.log(balls.length)
+    for (let i = balls.length - 1; i >=0 ; i--) {
+        let ball = balls[i];
+        removeExitedBallFromScreen(ball) && balls.splice(i, 1);
         ball.velocity.add(gravity);
+        checkBallPlateCollsion(ball, leftPlate);
+        checkBallPlateCollsion(ball, rightPlate);
         checkBottomCollision (ball);
-        //checkRightCollision (ball);
-        //checkLeftCollision (ball);
+        // checkRightCollision (ball);
+        // checkLeftCollision (ball);
         checkTopCollision (ball);
+
         setFrictionOnBottom (ball);
         ball.position.add(ball.velocity);
         drawBall (ball, ball.getPlayer() === 'left' ? 'blue' : 'red');
-    });
+    }
     drawTank(rightTank);
     drawTank(leftTank);
     drawLeftTankPower ();
@@ -143,6 +149,30 @@ function checkBallCollision(ball1, ball2) {
     }
 }
 
+function checkBallPlateCollsion (ball, plate) {
+    if (plate.getPosition().getX() === 0) {
+        if (ball.getPosition().getX() > 0 && ball.getPosition().getX() < plate.getPosition().getX() + ballRadius) {
+            if (ball.getPosition().getY() > plate.getPosition().getY() - ballRadius &&
+                ball.getPosition().getY() < plate.getPosition().getY() + ballRadius + plate.getHeight()) {
+                ball.setVelocity (vector.create (ball.velocity.getX () * -1, ball.velocity.getY ()));
+            }
+        }
+    } else {
+        if (ball.getPosition().getX() < width && ball.getPosition().getX() > plate.getPosition().getX() - ballRadius) {
+            if (ball.getPosition().getY() > plate.getPosition().getY() - ballRadius &&
+                ball.getPosition().getY() < plate.getPosition().getY() + ballRadius + plate.getHeight()) {
+                ball.setVelocity (vector.create (ball.velocity.getX () * -1, ball.velocity.getY ()));
+            }
+        }
+    }
+}
+
+function removeExitedBallFromScreen(ball) {
+    let ballX = ball.getPosition().getX();
+    let ballY = ball.getPosition().getY();
+    return ballX < 0 || ballX > width || ballY < 0 || ballY > height;
+}
+
 function keyboardHandling () {
     document.addEventListener('keydown', (event) => {
         if (event.code === 'Space') {
@@ -208,27 +238,16 @@ function drawSky() {
     backgroundContext.fillStyle = gradient;
     backgroundContext.fillRect(0, 0, window.innerWidth, window.innerHeight);
 }
-function drawHill1(hillHeight) {
+function drawHill (hillHeight, waveHeight, hillCount, color) {
+    let sinAngle = hillCount * 360;
     backgroundContext.beginPath();
-    for( let i = 0; i <= 720; i +=1) {
-        let y = height - hillHeight - Math.sin(i * Math.PI/180) * 30;
-        backgroundContext.lineTo(i / 720 * width, y);
+    for(let i = 0; i <= sinAngle; i +=1) {
+        let y = height - hillHeight - Math.sin(i * Math.PI/180) * waveHeight;
+        backgroundContext.lineTo(i / sinAngle * width, y);
     }
     backgroundContext.lineTo(width, height);
     backgroundContext.lineTo(0, height);
     backgroundContext.closePath();
-    backgroundContext.fillStyle = '#84B249';
-    backgroundContext.fill();
-}
-function drawHill2(hillHeight) {
-    backgroundContext.beginPath();
-    for( let i = 360; i >= 0; i -=1) {
-        let y = height - hillHeight - Math.sin(i * Math.PI/180) * 40;
-        backgroundContext.lineTo((360 - i) / 360 * width, y);
-    }
-    backgroundContext.lineTo(width, height);
-    backgroundContext.lineTo(0, height);
-    backgroundContext.closePath();
-    backgroundContext.fillStyle = '#39a85a';
+    backgroundContext.fillStyle = color;
     backgroundContext.fill();
 }
