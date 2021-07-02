@@ -17,15 +17,18 @@ let tankBodyRadius = 60,
     ballRadius = 18,
     bounce = .75,
     friction = .995,
-    gravity = vector.create(0, .4);
+    gravity = vector.create(0, .4),
+    leftPlayerColor = '#f9ba52',
+    rightPlayerColor = '#498bff';
 
 let balls = [];
-let leftPlate = plate.create (vector.create(0, 0), vector.create(0, 10), 'blue');
-let rightPlate = plate.create (vector.create(width - plate.width, 200), vector.create(0, 5), 'red');
+let leftPlate = plate.create (vector.create(0, 0), vector.create(0, 10), rightPlayerColor);
+let rightPlate = plate.create (vector.create(width - plate.width, 200), vector.create(0, 10), leftPlayerColor);
 
 let leftTank = tank.create(vector.create(ballRadius, height - ballRadius), -Math.PI / 4);
 let rightTank = tank.create(vector.create(width - ballRadius, height - ballRadius), 5 * Math.PI / 4);
-
+let leftTankPower = tankPower.create(vector.create(tankBodyRadius + 80, height - 105), 0, 1);
+let rightTankPower = tankPower.create(vector.create(width - tankBodyRadius - 80, height - 105), 60, 2);
 
 let update = function () {
     context.clearRect(0, 0, width, height);
@@ -37,7 +40,6 @@ let update = function () {
     reversPlateDirection (leftPlate);
     drawPlate(leftPlate);
 
-    console.log(balls.length)
     for (let i = balls.length - 1; i >=0 ; i--) {
         let ball = balls[i];
         removeExitedBallFromScreen(ball) && balls.splice(i, 1);
@@ -51,12 +53,12 @@ let update = function () {
 
         setFrictionOnBottom (ball);
         ball.position.add(ball.velocity);
-        drawBall (ball, ball.getPlayer() === 'left' ? 'blue' : 'red');
+        drawBall (ball, ball.getPlayer() === 'left' ? rightPlayerColor : leftPlayerColor);
     }
     drawTank(rightTank);
     drawTank(leftTank);
-    drawLeftTankPower ();
-    movePower();
+    //drawTankPower(leftTankPower);
+    //drawTankPower(rightTankPower);
     animationFrame = requestAnimationFrame (update)
 }
 
@@ -91,16 +93,25 @@ function drawTank (tank) {
     context.lineTo(cylinderEndPoint.getX (), cylinderEndPoint.getY ());
     context.stroke();
 }
-function drawLeftTankPower() {
+function drawTankPower(tankPower) {
     context.beginPath();
     context.lineWidth = "1";
     context.strokeStyle = "black";
-    context.rect(tankBodyRadius + 80, height - 30, 150, 20);
+    context.rect(tankPower.getPosition().getX(), tankPower.getPosition().getY(), tankPower.width, tankPower.height);
     context.stroke();
-}
-function movePower() {
+
+    if (tankPower.getDirection() === 'down') {
+        tankPower.setPower(tankPower.getPower() + 3);
+    } else {
+        tankPower.setPower(tankPower.getPower() - 3);
+    }
+    if (tankPower.getPower() >= 100 && tankPower.getDirection() === 'down') {
+        tankPower.setDirection('up');
+    } else if (tankPower.getPower() <= 0 && tankPower.getDirection() === 'up') {
+        tankPower.setDirection('down');
+    }
     context.fillStyle = "black";
-    context.fillRect(tankBodyRadius + 80, height - 30, 100, 20);
+    context.fillRect(tankPower.getPosition().getX(), tankPower.getPosition().getY(), tankPower.width, tankPower.power);
 }
 function reversPlateDirection (plate) {
     if (plate.position.getY() < 0 && plate.velocity.getY() < 0 ) {
@@ -151,14 +162,14 @@ function checkBallCollision(ball1, ball2) {
 
 function checkBallPlateCollsion (ball, plate) {
     if (plate.getPosition().getX() === 0) {
-        if (ball.getPosition().getX() > 0 && ball.getPosition().getX() < plate.getPosition().getX() + ballRadius) {
+        if (ball.getPosition().getX() < plate.getPosition().getX() + ballRadius) {
             if (ball.getPosition().getY() > plate.getPosition().getY() - ballRadius &&
                 ball.getPosition().getY() < plate.getPosition().getY() + ballRadius + plate.getHeight()) {
                 ball.setVelocity (vector.create (ball.velocity.getX () * -1, ball.velocity.getY ()));
             }
         }
     } else {
-        if (ball.getPosition().getX() < width && ball.getPosition().getX() > plate.getPosition().getX() - ballRadius) {
+        if (ball.getPosition().getX() > plate.getPosition().getX() - ballRadius) {
             if (ball.getPosition().getY() > plate.getPosition().getY() - ballRadius &&
                 ball.getPosition().getY() < plate.getPosition().getY() + ballRadius + plate.getHeight()) {
                 ball.setVelocity (vector.create (ball.velocity.getX () * -1, ball.velocity.getY ()));
@@ -170,24 +181,29 @@ function checkBallPlateCollsion (ball, plate) {
 function removeExitedBallFromScreen(ball) {
     let ballX = ball.getPosition().getX();
     let ballY = ball.getPosition().getY();
-    return ballX < 0 || ballX > width || ballY < 0 || ballY > height;
+    return ballX < -ballRadius || ballX > width + ballRadius ||
+        ballY < -ballRadius || ballY > height + ballRadius;
 }
 
 function keyboardHandling () {
     document.addEventListener('keydown', (event) => {
         if (event.code === 'Space') {
             let position = vector.create(ballRadius, height - ballRadius);
-            let velocity = vector.create(20, -20);
+            let velocity = vector.create(1, 1);
+            //velocity.setLength(leftTankPower.getPower() / 2);
+            velocity.setLength(40);
             velocity.setAngle(leftTank.getAngle ());
             let newBall = ball.create(position, velocity, 1);
-            newBall.setPlayer('left')
+            newBall.setPlayer('left');
             balls.push(newBall);
         } else if (event.code === 'Enter') {
             let position = vector.create(width - ballRadius, height - ballRadius);
-            let velocity = vector.create(-20, -20);
+            let velocity = vector.create(1, 1);
+            //velocity.setLength(rightTankPower.getPower() / 2);
+            velocity.setLength(40);
             velocity.setAngle(rightTank.getAngle ());
             let newBall = ball.create(position, velocity, 2);
-            newBall.setPlayer('right')
+            newBall.setPlayer('right');
             balls.push(newBall);
         } else if (event.code === 'Escape') {
             if (!animationFrame) {
