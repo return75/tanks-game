@@ -1,16 +1,17 @@
 let plate = {
     position: null,
-    width: 8,
-    height: 140,
+    width: 3,
+    height: null,
     color: null,
     velocity: null,
     acceleration: vector.create(0, 1),
 
-    create: function (position, velocity, color) {
+    create: function (position, velocity, color, height) {
         let object = Object.create(this);
         object.setPosition(position);
         object.setColor(color);
         object.setVelocity(velocity);
+        object.setHeight(height);
         return object;
     },
     setPosition: function (position) {
@@ -21,6 +22,9 @@ let plate = {
     },
     getHeight: function () {
         return this.height;
+    },
+    setHeight: function (height) {
+        this.height = height;
     },
     setColor: function (color) {
         this.color = color;
