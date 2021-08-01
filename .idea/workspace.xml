@@ -2,57 +2,13 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="72777987-0276-4686-9483-1da6aaf0b599" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/sounds.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app.js" beforeDir="false" afterPath="$PROJECT_DIR$/app.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ball.js" beforeDir="false" afterPath="$PROJECT_DIR$/ball.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/index.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/plate.js" beforeDir="false" afterPath="$PROJECT_DIR$/plate.js" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
-  </component>
-  <component name="FUSProjectUsageTrigger">
-    <session id="1676333462">
-      <usages-collector id="statistics.lifecycle.project">
-        <counts>
-          <entry key="project.closed" value="4" />
-          <entry key="project.open.time.13" value="1" />
-          <entry key="project.open.time.16" value="1" />
-          <entry key="project.open.time.17" value="1" />
-          <entry key="project.open.time.27" value="1" />
-          <entry key="project.open.time.31" value="1" />
-          <entry key="project.opened" value="5" />
-        </counts>
-      </usages-collector>
-      <usages-collector id="statistics.file.extensions.open">
-        <counts>
-          <entry key="html" value="1" />
-          <entry key="js" value="8" />
-        </counts>
-      </usages-collector>
-      <usages-collector id="statistics.file.types.open">
-        <counts>
-          <entry key="HTML" value="1" />
-          <entry key="JavaScript" value="8" />
-        </counts>
-      </usages-collector>
-      <usages-collector id="statistics.file.extensions.edit">
-        <counts>
-          <entry key="html" value="161" />
-          <entry key="js" value="4954" />
-        </counts>
-      </usages-collector>
-      <usages-collector id="statistics.file.types.edit">
-        <counts>
-          <entry key="HTML" value="161" />
-          <entry key="JavaScript" value="4954" />
-        </counts>
-      </usages-collector>
-    </session>
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
@@ -78,16 +34,12 @@
         <entry file="file://$PROJECT_DIR$/app.js">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="248">
-              <caret line="8" column="21" selection-start-line="8" selection-start-column="21" selection-end-line="8" selection-end-column="21" />
+              <caret line="8" column="2" selection-start-line="8" selection-start-column="2" selection-end-line="8" selection-end-column="2" />
               <folding>
-                <element signature="n#!!block;n#reversPlateDirection#0" />
-                <element signature="n#!!block;n#checkBottomCollision#0" />
-                <element signature="n#!!block;n#checkTopCollision#0" />
-                <element signature="n#!!block;n#checkLeftCollision#0" />
-                <element signature="n#!!block;n#setFrictionOnBottom#0" />
-                <element signature="n#!!block;n#checkBallCollision#0" />
-                <element signature="n#!!block;n#checkBallPlateLeftCollsion#0" />
+                <element signature="e#1252#2273#0" />
+                <element signature="n#!!block;n#checkBallPlateRightCollsion#0" />
                 <element signature="n#!!block;n#removeExitedBallFromScreen#0" />
+                <element signature="n#!!block;n#initBackground#0" />
                 <element signature="n#!!block;n#drawBackground#0" />
                 <element signature="n#!!block;n#drawSky#0" />
                 <element signature="n#!!block;n#drawHill#0" />
@@ -156,7 +108,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>reversPlateDirection</find>
       <find>checkTopCollision</find>
       <find>drawSky</find>
       <find>drawHill1</find>
@@ -186,6 +137,7 @@
       <find>initBackground</find>
       <find>backgroundContext</find>
       <find>ball.crea</find>
+      <find>checkBallPlateLeftCollsion</find>
     </findStrings>
     <replaceStrings>
       <replace>draw</replace>
@@ -281,18 +233,17 @@
       <workItem from="1625064162167" duration="12161000" />
       <workItem from="1625143864221" duration="9163000" />
       <workItem from="1625207730791" duration="17248000" />
-      <workItem from="1625247556358" duration="4321000" />
+      <workItem from="1625247556358" duration="5321000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="53981000" />
+    <option name="totallyTimeSpent" value="54981000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-7" y="-7" width="1550" height="838" extended-state="6" />
-    <editor active="true" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.21409395" />
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.21409395" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
@@ -305,7 +256,7 @@
       <window_info anchor="bottom" id="Docker" order="7" show_stripe_button="false" />
       <window_info anchor="bottom" id="Database Changes" order="8" show_stripe_button="false" />
       <window_info anchor="bottom" id="Version Control" order="9" show_stripe_button="false" />
-      <window_info anchor="bottom" id="Terminal" order="10" weight="0.32907802" />
+      <window_info anchor="bottom" id="Terminal" order="10" weight="0.635461" />
       <window_info anchor="bottom" id="Event Log" order="11" side_tool="true" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
@@ -383,16 +334,12 @@
     <entry file="file://$PROJECT_DIR$/app.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="248">
-          <caret line="8" column="21" selection-start-line="8" selection-start-column="21" selection-end-line="8" selection-end-column="21" />
+          <caret line="8" column="2" selection-start-line="8" selection-start-column="2" selection-end-line="8" selection-end-column="2" />
           <folding>
-            <element signature="n#!!block;n#reversPlateDirection#0" />
-            <element signature="n#!!block;n#checkBottomCollision#0" />
-            <element signature="n#!!block;n#checkTopCollision#0" />
-            <element signature="n#!!block;n#checkLeftCollision#0" />
-            <element signature="n#!!block;n#setFrictionOnBottom#0" />
-            <element signature="n#!!block;n#checkBallCollision#0" />
-            <element signature="n#!!block;n#checkBallPlateLeftCollsion#0" />
+            <element signature="e#1252#2273#0" />
+            <element signature="n#!!block;n#checkBallPlateRightCollsion#0" />
             <element signature="n#!!block;n#removeExitedBallFromScreen#0" />
+            <element signature="n#!!block;n#initBackground#0" />
             <element signature="n#!!block;n#drawBackground#0" />
             <element signature="n#!!block;n#drawSky#0" />
             <element signature="n#!!block;n#drawHill#0" />

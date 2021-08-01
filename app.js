@@ -6,7 +6,7 @@ let background = document.getElementById('background')
 let backgroundContext = background.getContext("2d");
 initBackground();
 drawBackground();
-playBackgroudSound();
+//playBackgroudSound();
 
 
 
@@ -44,8 +44,8 @@ let update = function () {
         let ball = balls[i];
         removeExitedBallFromScreen(ball) && balls.splice(i, 1);
         ball.velocity.add(gravity);
-        checkBallPlateLeftCollsion(ball);
-        checkBallPlateRightCollsion(ball);
+        checkBallPlateLeftCollision(ball);
+        checkBallPlateRightCollision(ball);
         checkBottomCollision (ball);
         checkTopCollision (ball);
 
@@ -162,7 +162,7 @@ function checkBallCollision(ball1, ball2) {
     }
 }
 
-function checkBallPlateLeftCollsion (ball) {
+function checkBallPlateLeftCollision (ball) {
     if (ball.getPosition().getX() < leftPlate.getPosition().getX() + ballRadius) {
         if (ball.getPosition().getY() > leftPlate.getPosition().getY() - ballRadius &&
             ball.getPosition().getY() < leftPlate.getPosition().getY() + ballRadius + leftPlate.getHeight()) {
@@ -171,7 +171,7 @@ function checkBallPlateLeftCollsion (ball) {
         }
     }
 }
-function checkBallPlateRightCollsion(ball) {
+function checkBallPlateRightCollision(ball) {
     if (ball.getPosition().getX() > rightPlate.getPosition().getX() - ballRadius) {
         if (ball.getPosition().getY() > rightPlate.getPosition().getY() - ballRadius &&
             ball.getPosition().getY() < rightPlate.getPosition().getY() + ballRadius + rightPlate.getHeight()) {
