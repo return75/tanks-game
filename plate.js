@@ -1,6 +1,6 @@
 let plate = {
     position: null,
-    width: 3,
+    width: 2,
     height: null,
     color: null,
     velocity: null,

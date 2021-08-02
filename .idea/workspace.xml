@@ -1,12 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="72777987-0276-4686-9483-1da6aaf0b599" name="Default Changelist" comment="remove tank power">
+    <list default="true" id="72777987-0276-4686-9483-1da6aaf0b599" name="Default Changelist" comment="draw rectangle for score">
+      <change afterPath="$PROJECT_DIR$/style.css" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app.js" beforeDir="false" afterPath="$PROJECT_DIR$/app.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/index.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/plate.js" beforeDir="false" afterPath="$PROJECT_DIR$/plate.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sounds/mario_coin_sound_1.mp3" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/sounds/shoot.wav" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/sounds.js" beforeDir="false" afterPath="$PROJECT_DIR$/sounds.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sounds/mario-background.mp3" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/sounds/mario-score.mp3" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/sounds/shoot2.mp3" beforeDir="false" afterPath="$PROJECT_DIR$/sounds/shoot2.mp3" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -122,6 +126,9 @@
     <key name="CopyFile.RECENT_KEYS">
       <recent name="C:\Users\alireza\Desktop\canvasGame\sounds" />
     </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\alireza\Desktop\tank-game\images" />
+    </key>
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="SvnConfiguration">
@@ -139,7 +146,8 @@
       <workItem from="1625143864221" duration="9163000" />
       <workItem from="1625207730791" duration="17248000" />
       <workItem from="1625247556358" duration="5321000" />
-      <workItem from="1627834250776" duration="6582000" />
+      <workItem from="1627834250776" duration="7211000" />
+      <workItem from="1627919072286" duration="6533000" />
     </task>
     <task id="LOCAL-00001" summary="remove tank power">
       <created>1627834452646</created>
@@ -148,7 +156,14 @@
       <option name="project" value="LOCAL" />
       <updated>1627834452646</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="draw rectangle for score">
+      <created>1627844690573</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1627844690573</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
@@ -191,10 +206,12 @@
         </entry>
       </map>
     </option>
+    <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="remove tank power" />
-    <option name="LAST_COMMIT_MESSAGE" value="remove tank power" />
+    <MESSAGE value="draw rectangle for score" />
+    <option name="LAST_COMMIT_MESSAGE" value="draw rectangle for score" />
   </component>
   <component name="editorHistoryManager">
     <entry file="file://$PROJECT_DIR$/tank.js">

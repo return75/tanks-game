@@ -6,7 +6,6 @@ let background = document.getElementById('background')
 let backgroundContext = background.getContext("2d");
 initBackground();
 drawBackground();
-//playBackgroudSound();
 
 let animationFrame;
 let tankBodyRadius = 60,
@@ -15,9 +14,10 @@ let tankBodyRadius = 60,
     ballRadius = 18,
     bounce = .75,
     friction = .995,
-    gravity = vector.create(0, .4),
-    leftPlayerColor = '#f9ba52',
-    rightPlayerColor = '#498bff',
+    gravity = vector.create(0, .5),
+    leftPlayerColor = '#de0505',
+    rightPlayerColor = '#0274d7',
+    shootPower = 30,
     scoreReactangleWidth = 100,
     scoreRectangleHeight = 20;
 
@@ -28,7 +28,7 @@ let leftPlayerScore = 0, rightPlayerScore = 0;
 let leftTank = tank.create(vector.create(ballRadius, height - ballRadius), -Math.PI / 4);
 let rightTank = tank.create(vector.create(width - ballRadius, height - ballRadius), 5 * Math.PI / 4);
 
-let update = function () {
+let startAnimationFrames = function () {
     context.clearRect(0, 0, width, height);
     centerPlate.position.add(centerPlate.velocity);
     reversPlateDirection (centerPlate);
@@ -49,7 +49,7 @@ let update = function () {
     drawScoreRectangle(width - tankBodyRadius - scoreReactangleWidth - 100, height - 50, 'right', rightPlayerScore);
     drawTank(rightTank, rightPlayerColor, '#423937');
     drawTank(leftTank, leftPlayerColor, '#423937');
-    animationFrame = requestAnimationFrame (update)
+    animationFrame = requestAnimationFrame (startAnimationFrames)
 }
 
 function drawBall (ball, color) {
@@ -139,11 +139,7 @@ function checkBallPlateCollision(ball) {
         if (ball.getPosition().getY() > centerPlate.getPosition().getY() - ballRadius &&
             ball.getPosition().getY() < centerPlate.getPosition().getY() + ballRadius + centerPlate.getHeight())
         {
-            if (ball.getPlayer() === 'left') {
-                leftPlayerScore ++
-            } else {
-                rightPlayerScore ++
-            }
+            ball.getPlayer() === 'left' ? leftPlayerScore ++ : rightPlayerScore ++
             ball.setVelocity (vector.create (ball.velocity.getX () * -1, ball.velocity.getY ()));
             playScoreSound();
         }
@@ -160,10 +156,10 @@ function removeExitedBallFromScreen(ball) {
 function drawScoreRectangle (xPosition, yPosition, player, score) {
     context.beginPath();
     context.lineWidth = "1";
-    context.strokeStyle = "#0701c6";
+    context.strokeStyle = "#00ba86";
     context.rect(xPosition, yPosition, scoreReactangleWidth, scoreRectangleHeight);
     context.stroke();
-    context.fillStyle = "#0701c6";
+    context.fillStyle = "#00ffb6";
     context.fillRect(xPosition, yPosition, score / 10 * scoreReactangleWidth, scoreRectangleHeight);
 }
 
@@ -172,51 +168,50 @@ function keyboardHandling () {
         if (event.code === 'Space') {
             let position = vector.create(ballRadius, height - ballRadius);
             let velocity = vector.create(1, 1);
-            //velocity.setLength(leftTankPower.getPower() / 2);
-            velocity.setLength(30);
+            velocity.setLength(shootPower);
             velocity.setAngle(leftTank.getAngle ());
             let newBall = ball.create(position, velocity, 'left');
             balls.push(newBall);
+            playShootSound();
         } else if (event.code === 'Enter') {
             let position = vector.create(width - ballRadius, height - ballRadius);
             let velocity = vector.create(1, 1);
-            //velocity.setLength(rightTankPower.getPower() / 2);
-            velocity.setLength(30);
+            velocity.setLength(shootPower);
             velocity.setAngle(rightTank.getAngle ());
             let newBall = ball.create(position, velocity, 'right');
             balls.push(newBall);
+            playShootSound();
         } else if (event.code === 'Escape') {
             if (!animationFrame) {
-                requestAnimationFrame (update)
+                requestAnimationFrame (startAnimationFrames)
             } else {
                 cancelAnimationFrame(animationFrame);
                 animationFrame = null;
             }
         } else if (event.code === 'ArrowUp') {
-            rightTank.setAngle(rightTank.getAngle() + .05);
+            rightTank.setAngle(rightTank.getAngle() + .1);
         } else if (event.code === 'ArrowRight') {
-            rightTank.setAngle(rightTank.getAngle() + .05);
+            rightTank.setAngle(rightTank.getAngle() + .1);
         } else if (event.code === 'ArrowDown') {
-            rightTank.setAngle(rightTank.getAngle() - .05);
+            rightTank.setAngle(rightTank.getAngle() - .1);
         } else if (event.code === 'ArrowLeft') {
-            rightTank.setAngle(rightTank.getAngle() - .05);
+            rightTank.setAngle(rightTank.getAngle() - .1);
         } else if (event.code === 'ArrowUp') {
-            rightTank.setAngle(rightTank.getAngle() + .05);
+            rightTank.setAngle(rightTank.getAngle() + .1);
         } else if (event.code === 'ArrowDown') {
-            rightTank.setAngle(rightTank.getAngle() - .05);
+            rightTank.setAngle(rightTank.getAngle() - .1);
         } else if (event.code === 'KeyA') {
-            leftTank.setAngle(leftTank.getAngle() - .05);
+            leftTank.setAngle(leftTank.getAngle() - .1);
         } else if (event.code === 'KeyW') {
-            leftTank.setAngle(leftTank.getAngle() - .05);
+            leftTank.setAngle(leftTank.getAngle() - .1);
         } else if (event.code === 'KeyS') {
-            leftTank.setAngle(leftTank.getAngle() + .05);
+            leftTank.setAngle(leftTank.getAngle() + .1);
         } else if (event.code === 'KeyD') {
-            leftTank.setAngle(leftTank.getAngle() + .05);
+            leftTank.setAngle(leftTank.getAngle() + .1);
         }
     }, false);
 }
 keyboardHandling();
-update();
 
 function initBackground () {
     background.width = window.innerWidth;
@@ -224,9 +219,9 @@ function initBackground () {
 }
 function drawBackground () {
     drawSky();
-    drawHill(150, 20, 4, '#b4ff62');
-    drawHill(120, 30, 2, '#84B249');
-    drawHill(100, 50, 1, '#39a85a');
+    drawHill(150, 20, 4, '#765008');
+    drawHill(120, 30, 2, '#eeda1d');
+    drawHill(100, 50, 1, '#b47e0b');
 }
 function drawSky() {
     let gradient = backgroundContext.createLinearGradient(0, 0, 0, window.innerHeight);

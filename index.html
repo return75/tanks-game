@@ -1,34 +1,45 @@
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
-<style>
-    body {
-        margin: 0
-    }
-    canvas {
-        position: absolute;
-        left:0;
-        top:0;
-    }
-    #background {
-        width: 100%;
-        height: 100%;
-    }
-</style>
-<body>
-    <audio src="sounds/shoot.wav" id="shoot"></audio>
-    <audio src="sounds/score.wav" id="score"></audio>
-    <audio src="sounds/mario-background.mp3" id="backgroundSound"></audio>
-    <canvas id="background"></canvas>
-    <canvas id="canvas"></canvas>
-    <script src="sounds.js"></script>
-    <script src="vector.js"></script>
-    <script src="ball.js"></script>
-    <script src="plate.js"></script>
-    <script src="tank.js"></script>
-    <script src="app.js"></script>
-</body>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>tanks fight</title>
+        <link rel="stylesheet" href="style.css">
+    </head>
+    <body>
+        <audio src="sounds/shoot.mp3" id="shoot"></audio>
+        <audio src="sounds/score.wav" id="score"></audio>
+        <audio src="sounds/background.mp3" id="backgroundSound"></audio>
+        <canvas id="background"></canvas>
+        <canvas id="canvas"></canvas>
+        <script src="sounds.js"></script>
+        <script src="vector.js"></script>
+        <script src="ball.js"></script>
+        <script src="plate.js"></script>
+        <script src="tank.js"></script>
+        <script src="app.js"></script>
+        <div id="start-game">
+            <button onclick="startGame()">start game</button>
+            <button onclick="document.querySelector('img').style.display = 'block'">how to play</button>
+            <img src="images/how-to-play.png" alt="" width="600px" style="display: none; max-width: 80vw">
+        </div>
+        <div id="game-sound">
+            <img src="images/audio.png" onclick="playPauseSound(this)" width="20">
+        </div>
+        <script>
+            function startGame () {
+                document.querySelector('#start-game').style.display = 'none';
+                startAnimationFrames();
+                playBackgroudSound();
+            }
+            function playPauseSound (e) {
+                if (backgroundSound.paused) {
+                    e.src = 'images/audio.png'
+                    playBackgroudSound()
+                } else {
+                    e.src = 'images/no-audio.png'
+                    pauseBackgroudSound()
+                }
+            }
+        </script>
+    </body>
 </html>

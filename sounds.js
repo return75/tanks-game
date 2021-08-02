@@ -3,6 +3,7 @@ let scoreSound = document.getElementById("score");
 let backgroundSound = document.getElementById("backgroundSound");
 
 function playShootSound() {
+    shootSound.volume = .1
     shootSound.play();
 }
 function pauseShootSound() {
@@ -22,6 +23,10 @@ function resetScoreSound() {
 }
 function playBackgroudSound() {
     backgroundSound.play();
+    backgroundSound.addEventListener('ended', () => {
+        backgroundSound.currentTime = 0;
+        backgroundSound.play();
+    })
 }
 function pauseBackgroudSound() {
     backgroundSound.pause();
