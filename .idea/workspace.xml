@@ -1,8 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="72777987-0276-4686-9483-1da6aaf0b599" name="Default Changelist" comment="change game sounds&#10;change tank colors">
-      <change beforePath="$PROJECT_DIR$/sounds/shoot2.mp3" beforeDir="false" />
+    <list default="true" id="72777987-0276-4686-9483-1da6aaf0b599" name="Default Changelist" comment="delete shoot2 sound">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app.js" beforeDir="false" afterPath="$PROJECT_DIR$/app.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sounds.js" beforeDir="false" afterPath="$PROJECT_DIR$/sounds.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/style.css" beforeDir="false" afterPath="$PROJECT_DIR$/style.css" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -111,6 +115,7 @@
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
     <property name="nodejs_npm_path_reset_for_default_project" value="true" />
+    <property name="nodejs_package_manager_path" value="npm" />
     <property name="settings.editor.selected.configurable" value="editor.preferences.fonts.default" />
     <property name="vue.rearranger.settings.migration" value="true" />
   </component>
@@ -139,7 +144,8 @@
       <workItem from="1625207730791" duration="17248000" />
       <workItem from="1625247556358" duration="5321000" />
       <workItem from="1627834250776" duration="7211000" />
-      <workItem from="1627919072286" duration="6937000" />
+      <workItem from="1627919072286" duration="8256000" />
+      <workItem from="1628007222744" duration="6875000" />
     </task>
     <task id="LOCAL-00001" summary="remove tank power">
       <created>1627834452646</created>
@@ -162,7 +168,14 @@
       <option name="project" value="LOCAL" />
       <updated>1627927200746</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL-00004" summary="delete shoot2 sound">
+      <created>1627927605919</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1627927605919</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
@@ -211,7 +224,8 @@
     <MESSAGE value="remove tank power" />
     <MESSAGE value="draw rectangle for score" />
     <MESSAGE value="change game sounds&#10;change tank colors" />
-    <option name="LAST_COMMIT_MESSAGE" value="change game sounds&#10;change tank colors" />
+    <MESSAGE value="delete shoot2 sound" />
+    <option name="LAST_COMMIT_MESSAGE" value="delete shoot2 sound" />
   </component>
   <component name="editorHistoryManager">
     <entry file="file://$PROJECT_DIR$/tank.js">

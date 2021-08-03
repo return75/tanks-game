@@ -4,8 +4,6 @@ let width = canvas.width = window.innerWidth;
 let height = canvas.height = window.innerHeight;
 let background = document.getElementById('background')
 let backgroundContext = background.getContext("2d");
-initBackground();
-drawBackground();
 
 let animationFrame;
 let tankBodyRadius = 60,
@@ -17,14 +15,16 @@ let tankBodyRadius = 60,
     gravity = vector.create(0, .5),
     leftPlayerColor = '#de0505',
     rightPlayerColor = '#0274d7',
+    plateColors = ['#003be0', '#e27c0b', '#d00660', '#e07909','#0adee5', '#7609dc', '#18d40b', '#e5dc06'],
     shootPower = 30,
+    initialPlateVelocity = 6,
+    initialPlateHeight = 140,
     scoreReactangleWidth = 100,
     scoreRectangleHeight = 20;
 
 let balls = [];
-let centerPlate = plate.create (vector.create(width / 2, 0), vector.create(0, 6), '#092e9c', 140);
+let centerPlate = plate.create(vector.create(width / 2, 0), vector.create(0, 6), plateColors[0], 140);
 let leftPlayerScore = 0, rightPlayerScore = 0;
-
 let leftTank = tank.create(vector.create(ballRadius, height - ballRadius), -Math.PI / 4);
 let rightTank = tank.create(vector.create(width - ballRadius, height - ballRadius), 5 * Math.PI / 4);
 
@@ -49,9 +49,8 @@ let startAnimationFrames = function () {
     drawScoreRectangle(width - tankBodyRadius - scoreReactangleWidth - 100, height - 50, 'right', rightPlayerScore);
     drawTank(rightTank, rightPlayerColor, '#423937');
     drawTank(leftTank, leftPlayerColor, '#423937');
-    animationFrame = requestAnimationFrame (startAnimationFrames)
+    animationFrame = requestAnimationFrame(startAnimationFrames)
 }
-
 function drawBall (ball, color) {
     context.beginPath();
     context.arc(ball.position.getX(), ball.position.getY(), ballRadius, 0, 2 * Math.PI);
@@ -85,7 +84,6 @@ function drawTank (tank, bodyColor, cylinderColor) {
     context.fillStyle = bodyColor;
     context.fill();
 }
-
 function reversPlateDirection (plate) {
     if (plate.position.getY() < 0 && plate.velocity.getY() < 0 ) {
         plate.setVelocity(plate.velocity.multiplyBy(-1));
@@ -93,7 +91,6 @@ function reversPlateDirection (plate) {
         plate.setVelocity(plate.velocity.multiplyBy(-1));
     }
 }
-
 function checkBottomCollision (ball) {
     if (ball.position.getY() + ballRadius > height) {
         let ySpeed = -1 * Math.abs(ball.velocity.getY ()) * bounce;
@@ -133,26 +130,25 @@ function checkBallsCollision(ball1, ball2) {
         ball2.velocity.setAngle (ball1VelocityAngle);
     }
 }
-
 function checkBallPlateCollision(ball) {
     if (Math.abs(ball.getPosition().getX() - centerPlate.getPosition().getX()) < ballRadius) {
         if (ball.getPosition().getY() > centerPlate.getPosition().getY() - ballRadius &&
             ball.getPosition().getY() < centerPlate.getPosition().getY() + ballRadius + centerPlate.getHeight())
         {
-            ball.getPlayer() === 'left' ? leftPlayerScore ++ : rightPlayerScore ++
+            ball.getPlayer() === 'left' ? leftPlayerScore ++ : rightPlayerScore ++;
+            checkIfGameEnded();
             ball.setVelocity (vector.create (ball.velocity.getX () * -1, ball.velocity.getY ()));
+            createNewPlate();
             playScoreSound();
         }
     }
 }
-
 function removeExitedBallFromScreen(ball) {
     let ballX = ball.getPosition().getX();
     let ballY = ball.getPosition().getY();
     return ballX < -ballRadius || ballX > width + ballRadius ||
         ballY < -ballRadius || ballY > height + ballRadius;
 }
-
 function drawScoreRectangle (xPosition, yPosition, player, score) {
     context.beginPath();
     context.lineWidth = "1";
@@ -162,7 +158,6 @@ function drawScoreRectangle (xPosition, yPosition, player, score) {
     context.fillStyle = "#00ffb6";
     context.fillRect(xPosition, yPosition, score / 10 * scoreReactangleWidth, scoreRectangleHeight);
 }
-
 function keyboardHandling () {
     document.addEventListener('keydown', (event) => {
         if (event.code === 'Space') {
@@ -183,7 +178,7 @@ function keyboardHandling () {
             playShootSound();
         } else if (event.code === 'Escape') {
             if (!animationFrame) {
-                requestAnimationFrame (startAnimationFrames)
+                requestAnimationFrame(startAnimationFrames)
             } else {
                 cancelAnimationFrame(animationFrame);
                 animationFrame = null;
@@ -211,8 +206,6 @@ function keyboardHandling () {
         }
     }, false);
 }
-keyboardHandling();
-
 function initBackground () {
     background.width = window.innerWidth;
     background.height = window.innerHeight;
@@ -243,4 +236,36 @@ function drawHill (hillHeight, waveHeight, hillCount, color) {
     backgroundContext.fillStyle = color;
     backgroundContext.fill();
 }
+function createNewPlate () {
+    let totalScore = leftPlayerScore + rightPlayerScore;
+    let newPlateHeight = initialPlateHeight - totalScore * 5;
+    let newPlateVelocity = initialPlateVelocity + .8;
+    let newPlateColor = plateColors[Math.round(Math.random() * plateColors.length)];
+    setTimeout(() => {
+        centerPlate = plate.create(vector.create(width / 2, height - newPlateHeight), vector.create(0, newPlateVelocity), newPlateColor, newPlateHeight);
+    }, 500)
+}
+function checkIfGameEnded () {
+    if (leftPlayerScore === 10 || rightPlayerScore === 10) {
+        cancelAnimationFrame(animationFrame);
+        showEndGamePanel()
+    }
+}
+function showEndGamePanel () {
+    cancelAnimationFrame(animationFrame);
+    animationFrame = null;
+    document.querySelector('#end-game').style.display = 'flex';
+    document.querySelector('#end-game .left .score').innerHTML = leftPlayerScore;
+    document.querySelector('#end-game .right .score').innerHTML = rightPlayerScore;
+    if (leftPlayerScore > rightPlayerScore) {
+        document.querySelector('#end-game .left .winner').innerHTML = 'winner';
+    } else {
+        document.querySelector('#end-game .right .winner').innerHTML = 'winner';
+    }
+    backgroundSound.volume = .4
 
+}
+
+initBackground();
+drawBackground();
+keyboardHandling();

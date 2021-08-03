@@ -22,6 +22,7 @@ function resetScoreSound() {
     scoreSound.currentTime = 0;
 }
 function playBackgroudSound() {
+    backgroundSound.volume = 1;
     backgroundSound.play();
     backgroundSound.addEventListener('ended', () => {
         backgroundSound.currentTime = 0;

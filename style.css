@@ -1,5 +1,6 @@
 body {
-    margin: 0
+    margin: 0;
+    font-family: "Arabic Typesetting";
 }
 canvas {
     position: absolute;
@@ -21,15 +22,49 @@ canvas {
     align-items: center;
     background: #00000057;
 }
-button {
+#end-game {
+    width: 100%;
+    height: 100%;
+    z-index: 2;
+    position: absolute;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: #00000057;
+    color: white;
+}
+#end-game > div > .score , #end-game > div > .winner {
+    font-size: 10rem;
+    margin-top: 2rem;
+    text-align: center;
+}
+#end-game button {
+    position: absolute;
+    left: 50%;
     width: 100px;
+    background: rgb(177, 5, 102);
+    z-index: 3;
+    margin-left: -50px;
+    top: 70%;
+}
+#end-game .left {
+    background: #de0505;
+}
+#end-game .right {
+    background: #0274d7;
+}
+#end-game > div {
+    width: 400px;
+    max-width: 40vw;
+    height: 600px;
+}
+button {
     background: #10c49a;
     border: none;
     color: white;
     font-size: 1rem;
     padding: 10px;
     border-radius: 5px;
-    font-family: san-serif;
     margin: 1rem;
     cursor: pointer;
 }

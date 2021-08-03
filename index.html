@@ -22,6 +22,17 @@
             <button onclick="document.querySelector('img').style.display = 'block'">how to play</button>
             <img src="images/how-to-play.png" alt="" width="600px" style="display: none; max-width: 80vw">
         </div>
+        <div id="end-game" style="display: none">
+            <div class="left">
+                <div class="score"></div>
+                <div class="winner"></div>
+            </div>
+            <div class="right">
+                <div class="score"></div>
+                <div class="winner"></div>
+            </div>
+            <button onclick="resetGame()">reset game</button>
+        </div>
         <div id="game-sound">
             <img src="images/audio.png" onclick="playPauseSound(this)" width="20">
         </div>
@@ -38,6 +49,20 @@
                 } else {
                     e.src = 'images/no-audio.png'
                     pauseBackgroudSound()
+                }
+            }
+            function resetGame () {
+                initialPlateVelocity = 6;
+                initialPlateHeight = 140;
+                document.querySelector('#end-game').style.display = 'none';
+                leftPlayerScore = rightPlayerScore = 0;
+                if (!animationFrame) {
+                    console.log('1')
+                    requestAnimationFrame(startAnimationFrames)
+                } else {
+                    console.log('2')
+                    cancelAnimationFrame(animationFrame);
+                    animationFrame = null;
                 }
             }
         </script>
