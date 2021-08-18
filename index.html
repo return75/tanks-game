@@ -3,7 +3,7 @@
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>tanks fight</title>
-        <link rel="stylesheet" href="style.css">
+        <link rel="stylesheet" href="css/style.css">
     </head>
     <body>
         <audio src="sounds/shoot.mp3" id="shoot"></audio>
@@ -11,12 +11,12 @@
         <audio src="sounds/background.mp3" id="backgroundSound"></audio>
         <canvas id="background"></canvas>
         <canvas id="canvas"></canvas>
-        <script src="sounds.js"></script>
-        <script src="vector.js"></script>
-        <script src="ball.js"></script>
-        <script src="plate.js"></script>
-        <script src="tank.js"></script>
-        <script src="app.js"></script>
+        <script src="js/sounds.js"></script>
+        <script src="js/vector.js"></script>
+        <script src="js/ball.js"></script>
+        <script src="js/plate.js"></script>
+        <script src="js/tank.js"></script>
+        <script src="js/app.js"></script>
         <div id="start-game">
             <button onclick="startGame()">start game</button>
             <button onclick="document.querySelector('img').style.display = 'block'">how to play</button>
@@ -31,7 +31,7 @@
                 <div class="score"></div>
                 <div class="winner"></div>
             </div>
-            <button onclick="resetGame()">reset game</button>
+<!--            <button onclick="resetGame()">reset game</button>-->
         </div>
         <div id="game-sound">
             <img src="images/audio.png" onclick="playPauseSound(this)" width="20">
@@ -56,14 +56,7 @@
                 initialPlateHeight = 140;
                 document.querySelector('#end-game').style.display = 'none';
                 leftPlayerScore = rightPlayerScore = 0;
-                if (!animationFrame) {
-                    console.log('1')
-                    requestAnimationFrame(startAnimationFrames)
-                } else {
-                    console.log('2')
-                    cancelAnimationFrame(animationFrame);
-                    animationFrame = null;
-                }
+                startAnimationFrames();
             }
         </script>
     </body>

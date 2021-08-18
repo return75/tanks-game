@@ -4,34 +4,34 @@ let tank = {
     power: null,
     player: null,
     create: function (position, angle) {
-        let object = Object.create(this);
-        object.setAngle(angle);
-        object.setPosition(position);
-        return object;
+        let object = Object.create(this)
+        object.setAngle(angle)
+        object.setPosition(position)
+        return object
     },
     setAngle (angle) {
-        this.angle = angle;
+        this.angle = angle
     },
     getAngle (angle) {
-        return this.angle;
+        return this.angle
     },
     setPower (power) {
-        this.power = power;
+        this.power = power
     },
     getPower (power) {
-        return this.power;
+        return this.power
     },
     setPlayer (player) {
-        this.player = player;
+        this.player = player
     },
     getPlayer (player) {
-        return this.player;
+        return this.player
     },
     setPosition (position) {
-        this.position = position;
+        this.position = position
     },
     getPosition (position) {
-        return this.position;
+        return this.position
     },
 
-};
+}
