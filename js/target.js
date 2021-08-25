@@ -1,6 +1,7 @@
 let target = {
     position: null,
     velocity: null,
+    collided: false,
     create: function (position, velocity) {
         let objcet = Object.create(this)
         objcet.setPosition(position)
@@ -18,5 +19,8 @@ let target = {
     },
     getVelocity () {
         return this.velocity
+    },
+    setCollided(collided) {
+        this.collided = collided
     }
 }

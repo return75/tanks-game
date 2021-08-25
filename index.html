@@ -32,7 +32,6 @@
                 <div class="score"></div>
                 <div class="winner"></div>
             </div>
-<!--            <button onclick="resetGame()">reset game</button>-->
         </div>
         <div id="game-sound">
             <img src="images/audio.png" onclick="playPauseSound(this)" width="20">
@@ -51,13 +50,6 @@
                     e.src = 'images/no-audio.png'
                     pauseBackgroudSound()
                 }
-            }
-            function resetGame () {
-                initialPlateVelocity = 6;
-                initialPlateHeight = 140;
-                document.querySelector('#end-game').style.display = 'none';
-                leftPlayerScore = rightPlayerScore = 0;
-                startAnimationFrames();
             }
         </script>
     </body>

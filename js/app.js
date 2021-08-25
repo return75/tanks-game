@@ -20,6 +20,7 @@ let animationFrame,
     targetPower = 35,
     scoreRectangleWidth = 100,
     scoreRectangleHeight = 20,
+    randomBallIntervalId = null,
     balls = [],
     targets = []
 
@@ -27,7 +28,7 @@ let leftTank = tank.create(vector.create(ballRadius, height - ballRadius), -Math
 let rightTank = tank.create(vector.create(width - ballRadius, height - ballRadius), 5 * Math.PI / 4)
 
 let startAnimationFrames = function () {
-    context.clearRect(0, 0, width, height)
+    clearCanvas()
     drawTargets()
     drawBalls()
     checkBallsTargetCollision()
@@ -35,7 +36,11 @@ let startAnimationFrames = function () {
     drawScoreRectangle(width - tankBodyRadius - scoreRectangleWidth - 100, height - 50, 'right', rightPlayerScore)
     drawTank(rightTank, rightPlayerColor, '#423937')
     drawTank(leftTank, leftPlayerColor, '#423937')
+    checkIfGameEnded()
     animationFrame = requestAnimationFrame(startAnimationFrames)
+}
+function clearCanvas () {
+    context.clearRect(0, 0, width, height)
 }
 function drawBall (ball, color) {
     context.beginPath()
@@ -93,8 +98,8 @@ function drawTarget (target, targetRadius) {
     context.fill()
 }
 function createRandomTarget () {
-    setInterval(function () {
-        let randomDirection = Math.random() * 10 - 5
+    randomBallIntervalId = setInterval(function () {
+        let randomDirection = Math.random() * 4 - 2
         let newTarget = target.create(vector.create(width / 2, height), vector.create(randomDirection, targetPower))
         targets.push(newTarget)
     }, 4000)
@@ -125,17 +130,24 @@ function checkBallTargetCollision (ball, target) {
     let distance = Math.sqrt (Math.pow((ball.getPosition().getX() - target.getPosition().getX()), 2) +
         Math.pow((ball.getPosition().getY() - target.getPosition().getY()), 2))
     if (distance < 2 * ballRadius) {
-        let ballVelocityAngle = ball.getVelocity().getAngle()
-        let targetVelocityAngle = target.getVelocity().getAngle()
-        ball.getVelocity().setAngle(targetVelocityAngle)
-        target.getVelocity().setAngle(ballVelocityAngle)
-        if (ball.getPlayer() === 'left') {
+        let ballCentersVector = vector.create(ball.getPosition().getX() - target.getPosition().getX(),
+            ball.getPosition().getY() - target.getPosition().getY())
+        let ballVelocityLength = ball.getVelocity().getLength()
+        let targetVelocityLength = target.getVelocity().getLength()
+        ball.getVelocity().setAngle(ballCentersVector.getAngle())
+        ball.getVelocity().setLength(targetVelocityLength)
+        target.getVelocity().setAngle(Math.PI + ballCentersVector.getAngle())
+        target.getVelocity().setLength(ballVelocityLength)
+        if (!target.collided && ball.getPlayer() === 'left') {
             leftPlayerScore++
             playScoreSound()
-        } else {
+            target.setCollided(true)
+        } else if (!target.collided) {
             rightPlayerScore++
             playScoreSound()
+            target.setCollided(true)
         }
+
    }
 }
 function setFrictionOnBottom(ball) {
@@ -229,6 +241,7 @@ function showEndGamePanel () {
     document.querySelector('#end-game').style.display = 'flex'
     document.querySelector('#end-game .left .score').innerHTML = leftPlayerScore.toString()
     document.querySelector('#end-game .right .score').innerHTML = rightPlayerScore.toString()
+    clearInterval(randomBallIntervalId)
     if (leftPlayerScore > rightPlayerScore) {
         document.querySelector('#end-game .left .winner').innerHTML = 'winner'
     } else {
