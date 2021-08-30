@@ -114,8 +114,8 @@ function checkBottomCollision (ball) {
     }
 }
 function checkTopCollision (ball) {
-    if (ball.position.getY() - ballRadius < 0) {
-        ball.setVelocity (vector.create (ball.velocity.getX (), ball.velocity.getY () * -1))
+    if (ball.getPosition().getY() <= ballRadius) {
+        ball.setVelocity (vector.create(ball.getVelocity().getX (), ball.getVelocity().getY () * -1))
     }
 }
 function checkBallsTargetCollision () {
