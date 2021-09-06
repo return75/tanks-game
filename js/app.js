@@ -17,7 +17,8 @@ let animationFrame,
     leftPlayerColor = '#de0505',
     rightPlayerColor = '#0274d7',
     shootPower = 30,
-    targetPower = 35,
+    targetBallTopScreenDistance = 50,
+    targetPower = Math.sqrt(2 * gravity.getY() * (height - targetBallTopScreenDistance)),
     scoreRectangleWidth = 100,
     scoreRectangleHeight = 20,
     randomBallIntervalId = null,
@@ -100,12 +101,12 @@ function drawTarget (target, targetRadius) {
 function createRandomTarget () {
     randomBallIntervalId = setInterval(function () {
         let randomDirection = Math.random() * 4 - 2
-        let newTarget = target.create(vector.create(width / 2, height), vector.create(randomDirection, targetPower))
+        let newTarget = target.create(vector.create(width / 2, height), vector.create(randomDirection, -1 * targetPower))
         targets.push(newTarget)
     }, 4000)
 }
 function checkBottomCollision (ball) {
-    if (ball.position.getY() + ballRadius > height) {
+    if (ball.getPosition().getY() + ballRadius > height && ball.getVelocity().getY() > 0) {
         let ySpeed = -1 * Math.abs(ball.velocity.getY ()) * bounce
         ball.setVelocity (vector.create (ball.velocity.getX (), ySpeed))
         if (ball.velocity.getY() > -1.8) {
@@ -155,16 +156,6 @@ function setFrictionOnBottom(ball) {
         ball.setVelocity (vector.create (ball.velocity.getX () * friction , 0))
     }
 }
-// function checkBallsCollision(ball1, ball2) {
-//     let distance = Math.sqrt (Math.pow((ball1.getPosition().getX () - ball2.getPosition().getX ()), 2) +
-//     Math.pow((ball1.getPosition().getY () - ball2.getPosition().getY ()), 2))
-//     if (distance < 2 * ballRadius) {
-//         let ball1VelocityAngle = ball1.getVelocity().getAngle()
-//         let ball2VelocityAngle = ball2.getVelocity().getAngle()
-//         ball1.getVelocity().setAngle(ball2VelocityAngle)
-//         ball2.getVelocity().setAngle(ball1VelocityAngle)
-//     }
-// }
 function removeExitedBallFromScreen(ball) {
     let ballX = ball.getPosition().getX()
     let ballY = ball.getPosition().getY()
@@ -228,8 +219,6 @@ function keyboardHandling () {
         }
     }, false)
 }
-
-
 function checkIfGameEnded () {
     if (leftPlayerScore === 10 || rightPlayerScore === 10) {
         cancelAnimationFrame(animationFrame)
